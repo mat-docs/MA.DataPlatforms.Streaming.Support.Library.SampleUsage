@@ -43,15 +43,15 @@ internal static class Program
         };
 
         // Configure Support Library
-        var streamApiConfig = new StreamingApiConfiguration(StreamCreationStrategy.TopicBased, "localhost:9094", []);
+        var streamApiConfig = new StreamingApiConfiguration(StreamCreationStrategy.TopicBased, "localhost:9092", []);
         var packetReadingConfig = new PacketReadingConfiguration(
-            sessionIdentifierPattern: "Test Quali Session 250502143348",
-            readingType: ReadingType.Historic,
+            sessionIdentifierPattern: "*",
+            readingType: ReadingType.Live,
             streams: new List<string>
             {
                 "Chassis"
             });
-        var bufferingConfig = new BufferingConfiguration(subscribedParameters, includeMarkerData: true, bufferingWindowLength: 100000);
+        var bufferingConfig = new BufferingConfiguration(subscribedParameters, includeMarkerData: true, bufferingWindowLength: 3000);
 
         // Create the handlers.
         var logger = new Logger(LoggingLevel.Info);
