@@ -42,7 +42,7 @@ Once configured, the buffering will only start when you call `BufferingSubscribe
 You can unsubscribe from the buffering by calling `BufferingUnsubscribe` or `BufferingUnsubscribeAll`.
 
 ## Interpolation
-Interpolation is done using a processor that implements the `ISubscriberProcessor` and then the results will be described with a object that implements the `IProcessResult` interface.
+Interpolation is done using a processor that implements the `ISubscriptionProcessor` and then the results will be described with a object that implements the `IProcessResult` interface.
 In the Support Library, we have created a default processor that gives the First, Last, Mean, Min, and Max of a set of samples and give it to a handler which will handle those results.
 
 An example `InterpolationResultHandler` is given to show how to handle the results from the default processor.
