@@ -5,6 +5,9 @@ using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.InterpolationModule;
 
 namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Interpolation.Custom;
 
+/// <summary>
+/// Custom DTO that implements the IProcessResult interface which allows it to be used by the Support Library.
+/// </summary>
 internal sealed class LinearInterpolationResult : IProcessResult
 {
     public LinearInterpolationResult(

@@ -14,6 +14,14 @@ internal sealed class LinearInterpolationProcessor : ISubscriptionProcessor
         this.interpolationPeriod = interpolationPeriodNano;
     }
 
+    /// <summary>
+    /// An example on how to create a custom processor.
+    /// Any custom processors need to implement the ISubscriptionProcessor interface
+    /// and output DTOs that implement the IProcessResult interface.
+    /// </summary>
+    /// <param name="context">ProcessContext which contains the data from the Support Library.
+    /// The data has been merged through the Buffering Module.</param>
+    /// <returns>The result of the processing.</returns>
     public IProcessResult Process(ProcessContext context)
     {
         var dataPoints = context.IntervalDataPoints;

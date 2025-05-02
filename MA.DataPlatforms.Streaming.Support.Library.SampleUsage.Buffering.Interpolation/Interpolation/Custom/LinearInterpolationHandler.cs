@@ -17,6 +17,10 @@ internal sealed class LinearInterpolationHandler : IBatchResultHandler
         this.sessionManager = sessionManager;
     }
 
+    /// <summary>
+    /// A Custom handler that handles the custom LinearInterpolationResult DTO.
+    /// </summary>
+    /// <param name="obj">Batch Results from the Support Library.</param>
     public void Handle(BatchResult obj)
     {
         if (obj.SubscriptionKey != this.subscriptionKey)
