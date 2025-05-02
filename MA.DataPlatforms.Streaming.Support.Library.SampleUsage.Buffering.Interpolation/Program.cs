@@ -8,6 +8,7 @@ using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.BufferingModule;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.ReadingModule;
 using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Buffering;
 using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Interpolation;
+using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Interpolation.Custom;
 using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;
 using MA.Streaming.Abstraction;
 using MA.Streaming.Core.Configs;
@@ -57,8 +58,14 @@ internal static class Program
         var timestampDataHandler = new TimestampDataHandler(logger, sqlSessionManager, subscribedParameters);
 
         // Interpolation requires a subscription key for every handler/processor pairing.
-        var subscriptionKey = Guid.NewGuid().ToString();
-        var interpolationResultHandler = new InterpolationResultHandler(logger, subscriptionKey, sqlSessionManager);
+        var subscriptionKeyDefault = Guid.NewGuid().ToString();
+        var interpolationResultHandler = new InterpolationResultHandler(logger, subscriptionKeyDefault, sqlSessionManager);
+
+        // Custom linear interpolation.
+        var interpolationInterval = 2000000UL; // 500 Hz 
+        var subscriptionKeyLinearInterpolation = Guid.NewGuid().ToString();
+        var linearInterpolationProcessor = new LinearInterpolationProcessor(interpolationInterval);
+        var linearInterpolationHandler = new LinearInterpolationHandler(subscriptionKeyLinearInterpolation, sqlSessionManager);
 
         // Create the support library.
         var supportLibApi = new SupportLibApiFactory().Create(
@@ -77,11 +84,20 @@ internal static class Program
         supportLibApi.BufferingSubscribe(subscribedParameters);
 
         // Subscribe to interpolation. This is also where we can inject your handler and processor for that interpolation.
-        supportLibApi.InterpolationSubscribe(subscriptionKey, subscribedParameters, 2, interpolationResultHandler, 2);
+        supportLibApi.InterpolationSubscribe(subscriptionKeyDefault, subscribedParameters, 2, interpolationResultHandler, 2);
+
+        supportLibApi.InterpolationSubscribe(
+            subscriptionKeyLinearInterpolation,
+            subscribedParameters,
+            2,
+            linearInterpolationHandler,
+            2,
+            linearInterpolationProcessor);
 
         Console.ReadLine();
         supportLibApi.BufferingUnsubscribe(subscribedParameters);
-        supportLibApi.InterpolationUnsubscribe(subscriptionKey);
+        supportLibApi.InterpolationUnsubscribe(subscriptionKeyDefault);
+        supportLibApi.InterpolationUnsubscribe(subscriptionKeyLinearInterpolation);
         supportLibApi.Stop();
         sqlSessionManager.Stop();
     }

@@ -12,4 +12,5 @@ internal static class ParameterConstants
     public const string InterpolatedFirst = "InterpolatedFirst";
     public const string InterpolatedLast = "InterpolatedLast";
     public const string InterpolatedMean = "InterpolatedMean";
+    public const string LinearInterpolation = "LinearInterpolation";
 }

@@ -53,7 +53,7 @@ internal class SqlSessionManager : ISqlSessionManager
 
             foreach (var parameterIdentifier in this.subscribedParameters)
             {
-                for (var i = 0; i < 7; i++)
+                for (var i = 0; i < 8; i++)
                 {
                     var parameterName = parameterIdentifier.Split(':')[0];
                     switch (i)
@@ -91,6 +91,11 @@ internal class SqlSessionManager : ISqlSessionManager
                         case 6:
                         {
                             parameterName += ParameterConstants.InterpolatedMean;
+                            break;
+                        }
+                        case 7:
+                        {
+                            parameterName += ParameterConstants.LinearInterpolation;
                             break;
                         }
                     }
