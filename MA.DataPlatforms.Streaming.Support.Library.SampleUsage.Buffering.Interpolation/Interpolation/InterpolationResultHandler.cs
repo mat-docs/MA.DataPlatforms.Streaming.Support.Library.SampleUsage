@@ -1,6 +1,10 @@
 ﻿// <copyright file="InterpolationResultHandler.cs" company="McLaren Applied Ltd.">
 // Copyright (c) McLaren Applied Ltd.</copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.InterpolationModule;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Shared.Abstractions;
 using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;

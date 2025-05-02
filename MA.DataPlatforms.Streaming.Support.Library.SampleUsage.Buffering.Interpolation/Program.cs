@@ -1,7 +1,10 @@
 ﻿// <copyright file="Program.cs" company="McLaren Applied Ltd.">
 // Copyright (c) McLaren Applied Ltd.</copyright>
 
+using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Abstractions;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.BufferingModule;
@@ -40,15 +43,15 @@ internal static class Program
         };
 
         // Configure Support Library
-        var streamApiConfig = new StreamingApiConfiguration(StreamCreationStrategy.TopicBased, "localhost:9092", []);
+        var streamApiConfig = new StreamingApiConfiguration(StreamCreationStrategy.TopicBased, "localhost:9094", []);
         var packetReadingConfig = new PacketReadingConfiguration(
-            sessionIdentifierPattern: "*",
-            readingType: ReadingType.Live,
+            sessionIdentifierPattern: "Test Quali Session 250502143348",
+            readingType: ReadingType.Historic,
             streams: new List<string>
             {
                 "Chassis"
             });
-        var bufferingConfig = new BufferingConfiguration(subscribedParameters, includeMarkerData: true, bufferingWindowLength: 3000);
+        var bufferingConfig = new BufferingConfiguration(subscribedParameters, includeMarkerData: true, bufferingWindowLength: 100000);
 
         // Create the handlers.
         var logger = new Logger(LoggingLevel.Info);

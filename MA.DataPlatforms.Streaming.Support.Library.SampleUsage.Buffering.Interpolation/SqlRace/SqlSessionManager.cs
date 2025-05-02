@@ -1,6 +1,9 @@
 ﻿// <copyright file="SqlSessionManager.cs" company="McLaren Applied Ltd.">
 // Copyright (c) McLaren Applied Ltd.</copyright>
 
+using System;
+using System.Collections.Generic;
+
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Shared.Abstractions;
 
 using MAT.OCS.Core;
