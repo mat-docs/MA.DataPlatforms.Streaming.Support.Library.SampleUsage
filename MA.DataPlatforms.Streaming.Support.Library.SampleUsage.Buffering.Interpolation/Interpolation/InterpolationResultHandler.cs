@@ -4,8 +4,9 @@
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Modules.Interpolation.Abstractions;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Modules.Interpolation.Contracts;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Shared.Abstractions;
+using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;
 
-namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation;
+namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Interpolation;
 
 internal class InterpolationResultHandler : IBatchResultHandler
 {
@@ -21,8 +22,8 @@ internal class InterpolationResultHandler : IBatchResultHandler
     }
 
     /// <summary>
-    /// This is a batch of results from the interpolation from the processor.
-    /// Depending on the ProcessResult it can be cast to the final Result object for analysis. 
+    ///     This is a batch of results from the interpolation from the processor.
+    ///     Depending on the ProcessResult it can be cast to the final Result object for analysis.
     /// </summary>
     /// <param name="obj">Batched Result from the support library after it has been processed by the processor.</param>
     public void Handle(BatchResult obj)

@@ -1,9 +1,9 @@
-﻿// <copyright file="Extensions.cs" company="McLaren Applied Ltd.">
+﻿// <copyright file="SqlRaceExtensions.cs" company="McLaren Applied Ltd.">
 // Copyright (c) McLaren Applied Ltd.</copyright>
 
-namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation;
+namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;
 
-internal static class Extensions
+internal static class SqlRaceExtensions
 {
     private const long NumberOfNanosecondsInDay = 86400000000000;
 

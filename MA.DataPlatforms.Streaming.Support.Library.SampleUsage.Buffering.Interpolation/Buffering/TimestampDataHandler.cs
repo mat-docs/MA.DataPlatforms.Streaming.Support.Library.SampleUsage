@@ -3,10 +3,11 @@
 
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.BufferingModule;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Shared.Abstractions;
+using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;
 
 using MESL.SqlRace.Domain;
 
-namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation;
+namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Buffering;
 
 internal class TimestampDataHandler : IHandler<TimestampData>
 {
@@ -33,17 +34,17 @@ internal class TimestampDataHandler : IHandler<TimestampData>
         {
             case StartTimeStampData startTimeStampData:
             {
-                session = this.sessionManager.CreateSession(startTimeStampData.SessionKey);
+                session = sessionManager.CreateSession(startTimeStampData.SessionKey);
                 break;
             }
             case EndTimeStampData endTimeStampData:
             {
-                this.sessionManager.StopSession(endTimeStampData.SessionKey);
+                sessionManager.StopSession(endTimeStampData.SessionKey);
                 return;
             }
             default:
             {
-                var foundSession = this.sessionManager.GetSession(obj.SessionKey);
+                var foundSession = sessionManager.GetSession(obj.SessionKey);
                 if (foundSession is null)
                 {
                     return;
@@ -73,7 +74,7 @@ internal class TimestampDataHandler : IHandler<TimestampData>
             var data = new List<byte>();
             foreach (var value in timeColumn.SampleValues)
             {
-                if (!this.subscribedParameters.Contains(value.Identifier))
+                if (!subscribedParameters.Contains(value.Identifier))
                 {
                     continue;
                 }

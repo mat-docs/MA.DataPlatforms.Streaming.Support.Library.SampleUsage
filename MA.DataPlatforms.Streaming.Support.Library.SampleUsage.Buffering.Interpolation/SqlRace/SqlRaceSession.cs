@@ -3,7 +3,7 @@
 
 using MESL.SqlRace.Domain;
 
-namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation;
+namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;
 
 internal class SqlRaceSession
 {

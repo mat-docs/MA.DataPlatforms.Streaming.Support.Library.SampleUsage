@@ -1,7 +1,7 @@
 ﻿// <copyright file="ISqlSessionManager.cs" company="McLaren Applied Ltd.">
 // Copyright (c) McLaren Applied Ltd.</copyright>
 
-namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation;
+namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;
 
 internal interface ISqlSessionManager
 {

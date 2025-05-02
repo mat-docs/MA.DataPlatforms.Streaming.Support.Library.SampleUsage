@@ -3,10 +3,11 @@
 
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.BufferingModule;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Shared.Abstractions;
+using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;
 
 using MESL.SqlRace.Domain;
 
-namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation;
+namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Buffering;
 
 internal class SampleDataHandler : IHandler<SampleData>
 {
@@ -22,7 +23,8 @@ internal class SampleDataHandler : IHandler<SampleData>
     }
 
     /// <summary>
-    /// Here data is split per "Parameter". Each SampleData is tied to one parameter and contains multiple samples and timestamps.
+    ///     Here data is split per "Parameter". Each SampleData is tied to one parameter and contains multiple samples and
+    ///     timestamps.
     /// </summary>
     /// <param name="obj">Sample Data from the support library.</param>
     public void Handle(SampleData obj)
@@ -52,7 +54,6 @@ internal class SampleDataHandler : IHandler<SampleData>
                 break;
             }
         }
-
 
         // Marker, Event, Errors, and CAN data can be included as part of the merged stream.
         // This is how you can filter them.

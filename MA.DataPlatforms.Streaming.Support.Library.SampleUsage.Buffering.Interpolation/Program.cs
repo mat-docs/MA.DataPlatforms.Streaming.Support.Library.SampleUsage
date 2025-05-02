@@ -6,6 +6,9 @@ using System.Net;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Abstractions;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.BufferingModule;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.ReadingModule;
+using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Buffering;
+using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Interpolation;
+using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;
 using MA.Streaming.Abstraction;
 using MA.Streaming.Core.Configs;
 
@@ -37,7 +40,7 @@ internal static class Program
         };
 
         // Configure Support Library
-        var streamApiConfig = new StreamingApiConfiguration(StreamCreationStrategy.TopicBased, "localhost:9094", []);
+        var streamApiConfig = new StreamingApiConfiguration(StreamCreationStrategy.TopicBased, "localhost:9092", []);
         var packetReadingConfig = new PacketReadingConfiguration(
             sessionIdentifierPattern: "*",
             readingType: ReadingType.Live,
@@ -69,7 +72,7 @@ internal static class Program
         // Initialize and start support library
         supportLibApi.Initiate();
         Task.Run(() => supportLibApi.Start());
-        
+
         // Subscribe to buffering (merging)
         supportLibApi.BufferingSubscribe(subscribedParameters);
 

@@ -8,7 +8,7 @@ using MAT.OCS.Core;
 using MESL.SqlRace.Domain;
 using MESL.SqlRace.Enumerators;
 
-namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation;
+namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;
 
 internal class SqlSessionManager : ISqlSessionManager
 {
