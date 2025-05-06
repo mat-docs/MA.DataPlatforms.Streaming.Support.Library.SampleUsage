@@ -1,7 +1,10 @@
 ﻿// <copyright file="Program.cs" company="McLaren Applied Ltd.">
 // Copyright (c) McLaren Applied Ltd.</copyright>
 
+using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Abstractions;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.BufferingModule;

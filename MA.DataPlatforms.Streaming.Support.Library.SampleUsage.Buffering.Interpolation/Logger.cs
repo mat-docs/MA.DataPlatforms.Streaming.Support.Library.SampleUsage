@@ -1,6 +1,8 @@
 ﻿// <copyright file="Logger.cs" company="McLaren Applied Ltd.">
 // Copyright (c) McLaren Applied Ltd.</copyright>
 
+using System;
+
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Shared.Abstractions;
 
 namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation;

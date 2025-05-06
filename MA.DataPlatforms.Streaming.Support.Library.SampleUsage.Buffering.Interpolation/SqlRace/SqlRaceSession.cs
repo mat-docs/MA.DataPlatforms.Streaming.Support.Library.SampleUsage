@@ -1,6 +1,8 @@
 ﻿// <copyright file="SqlRaceSession.cs" company="McLaren Applied Ltd.">
 // Copyright (c) McLaren Applied Ltd.</copyright>
 
+using System.Collections.Generic;
+
 using MESL.SqlRace.Domain;
 
 namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;

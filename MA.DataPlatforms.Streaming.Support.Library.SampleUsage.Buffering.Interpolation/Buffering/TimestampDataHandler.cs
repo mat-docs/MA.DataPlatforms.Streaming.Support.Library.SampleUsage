@@ -1,6 +1,10 @@
 ﻿// <copyright file="TimestampDataHandler.cs" company="McLaren Applied Ltd.">
 // Copyright (c) McLaren Applied Ltd.</copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.BufferingModule;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Shared.Abstractions;
 using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;
@@ -22,9 +26,8 @@ internal class TimestampDataHandler : IHandler<TimestampData>
         this.subscribedParameters = subscribedParameters;
     }
 
-
     /// <summary>
-    /// Here data is split per "Timestamp". Each timestamp contains samples for multiple parameters.
+    ///     Here data is split per "Timestamp". Each timestamp contains samples for multiple parameters.
     /// </summary>
     /// <param name="obj">TimestampData from support library.</param>
     public void Handle(TimestampData obj)
@@ -34,17 +37,17 @@ internal class TimestampDataHandler : IHandler<TimestampData>
         {
             case StartTimeStampData startTimeStampData:
             {
-                session = sessionManager.CreateSession(startTimeStampData.SessionKey);
+                session = this.sessionManager.CreateSession(startTimeStampData.SessionKey);
                 break;
             }
             case EndTimeStampData endTimeStampData:
             {
-                sessionManager.StopSession(endTimeStampData.SessionKey);
+                this.sessionManager.StopSession(endTimeStampData.SessionKey);
                 return;
             }
             default:
             {
-                var foundSession = sessionManager.GetSession(obj.SessionKey);
+                var foundSession = this.sessionManager.GetSession(obj.SessionKey);
                 if (foundSession is null)
                 {
                     return;
@@ -63,7 +66,7 @@ internal class TimestampDataHandler : IHandler<TimestampData>
                 .Select(z => z.Cast<MarkerData>()))
             .ToList();
 
-        foreach (var marker in markers)
+        foreach (var marker in markers.OfType<MarkerData>())
         {
             session.ClientSession.Session.LapCollection.Add(new Lap(marker.TimeStamp.ConvertTimestamp(), (short)marker.Value, 0, marker.Label, false));
         }
@@ -74,7 +77,7 @@ internal class TimestampDataHandler : IHandler<TimestampData>
             var data = new List<byte>();
             foreach (var value in timeColumn.SampleValues)
             {
-                if (!subscribedParameters.Contains(value.Identifier))
+                if (!this.subscribedParameters.Contains(value.Identifier))
                 {
                     continue;
                 }
