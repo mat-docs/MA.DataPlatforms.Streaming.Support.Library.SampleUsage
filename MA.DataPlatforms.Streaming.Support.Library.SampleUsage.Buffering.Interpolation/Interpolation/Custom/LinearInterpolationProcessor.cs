@@ -13,7 +13,7 @@ internal sealed class LinearInterpolationProcessor : ISubscriptionProcessor
     private readonly Dictionary<string, DataPoint> lastBatchDataPoints = new();
 
     /// <summary>
-    /// Creates a linearly interpolated data between two sample points.
+    ///     Creates a linearly interpolated data between two sample points.
     /// </summary>
     /// <param name="interpolationPeriodNano">The frequency of the interpolated data</param>
     public LinearInterpolationProcessor(ulong interpolationPeriodNano)
