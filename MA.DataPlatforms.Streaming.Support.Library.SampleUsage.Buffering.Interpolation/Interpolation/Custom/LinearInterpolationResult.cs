@@ -1,6 +1,8 @@
 ﻿// <copyright file="LinearInterpolationResult.cs" company="McLaren Applied Ltd.">
 // Copyright (c) McLaren Applied Ltd.</copyright>
 
+using System.Collections.Generic;
+
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.InterpolationModule;
 
 namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Interpolation.Custom;

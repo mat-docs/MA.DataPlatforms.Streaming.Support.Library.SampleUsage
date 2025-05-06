@@ -68,7 +68,14 @@ internal class TimestampDataHandler : IHandler<TimestampData>
 
         foreach (var marker in markers.OfType<MarkerData>())
         {
-            session.ClientSession.Session.LapCollection.Add(new Lap(marker.TimeStamp.ConvertTimestamp(), (short)marker.Value, 0, marker.Label, false));
+            try
+            {
+                session.ClientSession.Session.LapCollection.Add(new Lap(marker.TimeStamp.ConvertTimestamp(), (short)marker.Value, 0, marker.Label, false));
+            }
+            catch (InvalidOperationException ex)
+            {
+                this.logger.Warning($"Unable to add laps due to {ex}");
+            }
         }
 
         foreach (var timeColumn in obj.TimeColumns)

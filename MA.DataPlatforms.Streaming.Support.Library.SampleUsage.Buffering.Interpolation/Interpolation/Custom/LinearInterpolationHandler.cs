@@ -1,6 +1,9 @@
 ﻿// <copyright file="LinearInterpolationHandler.cs" company="McLaren Applied Ltd.">
 // Copyright (c) McLaren Applied Ltd.</copyright>
 
+using System;
+using System.Linq;
+
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.InterpolationModule;
 using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;
 

@@ -68,7 +68,14 @@ internal class SampleDataHandler : IHandler<SampleData>
 
         foreach (var marker in markers.OfType<MarkerData>())
         {
-            session.ClientSession.Session.LapCollection.Add(new Lap(marker.TimeStamp.ConvertTimestamp(), (short)marker.Value, 0, marker.Label, false));
+            try
+            {
+                session.ClientSession.Session.LapCollection.Add(new Lap(marker.TimeStamp.ConvertTimestamp(), (short)marker.Value, 0, marker.Label, false));
+            }
+            catch (InvalidOperationException ex)
+            {
+                this.logger.Warning($"Unable to add laps to the session due to {ex}.");
+            }
         }
 
         if (!this.subscribedParameters.Contains(obj.Identifier))

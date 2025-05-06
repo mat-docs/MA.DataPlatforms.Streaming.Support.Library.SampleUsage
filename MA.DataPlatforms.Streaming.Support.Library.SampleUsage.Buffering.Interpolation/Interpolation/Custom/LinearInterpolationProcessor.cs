@@ -1,6 +1,8 @@
 ﻿// <copyright file="LinearInterpolationProcessor.cs" company="McLaren Applied Ltd.">
 // Copyright (c) McLaren Applied Ltd.</copyright>
 
+using System.Collections.Generic;
+
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.InterpolationModule;
 
 namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Interpolation.Custom;
@@ -8,32 +10,50 @@ namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Inter
 internal sealed class LinearInterpolationProcessor : ISubscriptionProcessor
 {
     private readonly ulong interpolationPeriod;
+    private readonly Dictionary<string, DataPoint> lastBatchDataPoints = new();
 
+    /// <summary>
+    /// Creates a linearly interpolated data between two sample points.
+    /// </summary>
+    /// <param name="interpolationPeriodNano">The frequency of the interpolated data</param>
     public LinearInterpolationProcessor(ulong interpolationPeriodNano)
     {
         this.interpolationPeriod = interpolationPeriodNano;
     }
 
     /// <summary>
-    /// An example on how to create a custom processor.
-    /// Any custom processors need to implement the ISubscriptionProcessor interface
-    /// and output DTOs that implement the IProcessResult interface.
+    ///     An example on how to create a custom processor.
+    ///     Any custom processors need to implement the ISubscriptionProcessor interface
+    ///     and output DTOs that implement the IProcessResult interface.
     /// </summary>
-    /// <param name="context">ProcessContext which contains the data from the Support Library.
-    /// The data has been merged through the Buffering Module.</param>
+    /// <param name="context">
+    ///     ProcessContext which contains the data from the Support Library.
+    ///     The data has been merged through the Buffering Module.
+    /// </param>
     /// <returns>The result of the processing.</returns>
     public IProcessResult Process(ProcessContext context)
     {
         var dataPoints = context.IntervalDataPoints;
         var interpolatedDataPoints = new List<double>();
         var timestamps = new List<ulong>();
-        for (var i = 1; i < dataPoints.Count; i += 2)
+        for (var i = 0; i < dataPoints.Count; i++)
         {
-            var dataPointInitial = dataPoints[i - 1];
             var dataPointFinal = dataPoints[i];
+            DataPoint dataPointInitial;
+            switch (i)
+            {
+                case 0 when !this.lastBatchDataPoints.TryGetValue(dataPointFinal.ParameterIdentifier, out dataPointInitial):
+                    // Continue to the next sample
+                    continue;
+                case 0 when this.lastBatchDataPoints.TryGetValue(dataPointFinal.ParameterIdentifier, out dataPointInitial):
+                    break;
+                default:
+                    dataPointInitial = dataPoints[i - 1];
+                    break;
+            }
 
             for (var interpolatedTimestamp = dataPointInitial.TimestampNanoseconds;
-                 interpolatedTimestamp < dataPointFinal.TimestampNanoseconds;
+                 interpolatedTimestamp <= dataPointFinal.TimestampNanoseconds;
                  interpolatedTimestamp += this.interpolationPeriod)
             {
                 interpolatedDataPoints.Add(
@@ -45,6 +65,8 @@ internal sealed class LinearInterpolationProcessor : ISubscriptionProcessor
                         interpolatedTimestamp));
                 timestamps.Add(interpolatedTimestamp);
             }
+
+            this.lastBatchDataPoints[dataPointFinal.ParameterIdentifier] = dataPointFinal;
         }
 
         return new LinearInterpolationResult(
