@@ -39,6 +39,9 @@ internal sealed class LinearInterpolationProcessor : ISubscriptionProcessor
         for (var i = 0; i < dataPoints.Count; i++)
         {
             var dataPointFinal = dataPoints[i];
+
+            // Depending on what you are doing, you may need to cache the last process context's data point
+            // as shown here to ensure all the data is processed together continuously.
             DataPoint dataPointInitial;
             switch (i)
             {
