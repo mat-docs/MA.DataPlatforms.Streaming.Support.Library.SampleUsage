@@ -4,13 +4,13 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Threading.Tasks;
 
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Abstractions;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.BufferingModule;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.ReadingModule;
 using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Buffering;
 using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Interpolation;
+using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Interpolation.Custom;
 using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;
 using MA.Streaming.Abstraction;
 using MA.Streaming.Core.Configs;
@@ -43,7 +43,7 @@ internal static class Program
         };
 
         // Configure Support Library
-        var streamApiConfig = new StreamingApiConfiguration(StreamCreationStrategy.TopicBased, "localhost:9092", []);
+        var streamApiConfig = new StreamingApiConfiguration(StreamCreationStrategy.TopicBased, "localhost:9094", []);
         var packetReadingConfig = new PacketReadingConfiguration(
             sessionIdentifierPattern: "*",
             readingType: ReadingType.Live,
@@ -60,32 +60,90 @@ internal static class Program
         var timestampDataHandler = new TimestampDataHandler(logger, sqlSessionManager, subscribedParameters);
 
         // Interpolation requires a subscription key for every handler/processor pairing.
-        var subscriptionKey = Guid.NewGuid().ToString();
-        var interpolationResultHandler = new InterpolationResultHandler(logger, subscriptionKey, sqlSessionManager);
+        var subscriptionKeyDefault = Guid.NewGuid().ToString();
+        var interpolationResultHandler = new InterpolationResultHandler(logger, subscriptionKeyDefault, sqlSessionManager);
+
+        // Custom linear interpolation.
+        var interpolationInterval = 2000000UL; // 500 Hz 
+        var subscriptionKeyLinearInterpolation = Guid.NewGuid().ToString();
+        var linearInterpolationProcessor = new LinearInterpolationProcessor(interpolationInterval);
+        var linearInterpolationHandler = new LinearInterpolationHandler(subscriptionKeyLinearInterpolation, sqlSessionManager);
 
         // Create the support library.
         var supportLibApi = new SupportLibApiFactory().Create(
-            streamApiConfig,
-            packetReadingConfig,
-            bufferingConfig,
             logger,
-            sampleDataHandler: sampleDataHandler,
-            timestampDataHandler: timestampDataHandler);
+            streamApiConfig);
 
         // Initialize and start support library
-        supportLibApi.Initiate();
-        Task.Run(() => supportLibApi.Start());
+        supportLibApi.Initialise();
+        supportLibApi.Start();
+        var sampleReaderModule = supportLibApi.GetSampleReaderApi();
+        if (sampleReaderModule is null)
+        {
+            logger.Error("Failed to create sample reader module.");
+            return;
+        }
+
+        var sampleReaderApiResponse = sampleReaderModule.CreateService(bufferingConfig);
+        if (!sampleReaderApiResponse.Success ||
+            sampleReaderApiResponse.Data is null)
+        {
+            logger.Error("Failed to create sample reader api.");
+            return;
+        }
+
+        var sampleReaderApi = sampleReaderApiResponse.Data;
+        sampleReaderApi.Initialise();
+        sampleReaderApi.Start();
 
         // Subscribe to buffering (merging)
-        supportLibApi.BufferingSubscribe(subscribedParameters);
+        sampleReaderApi.Subscribe(subscribedParameters);
+        sampleReaderApi.AddHandler(sampleDataHandler);
+        sampleReaderApi.AddHandler(timestampDataHandler);
 
         // Subscribe to interpolation. This is also where we can inject your handler and processor for that interpolation.
-        supportLibApi.InterpolationSubscribe(subscriptionKey, subscribedParameters, 2, interpolationResultHandler, 2);
+        var dataReaderModule = supportLibApi.GetDataReaderApi();
+        if (dataReaderModule is null)
+        {
+            logger.Error("Failed to create data reader module.");
+            return;
+        }
 
+        var dataReaderApiResponse = dataReaderModule.CreateService();
+        if (!dataReaderApiResponse.Success ||
+            dataReaderApiResponse.Data is null)
+        {
+            logger.Error("Failed to create data reader api.");
+            return;
+        }
+
+        var dataReaderApi = dataReaderApiResponse.Data;
+        dataReaderApi.Initialise();
+        dataReaderApi.Start();
+        dataReaderApi.SetSampleReaderService(sampleReaderApi);
+        dataReaderApi.Subscribe(subscriptionKeyDefault, subscribedParameters, 2, interpolationResultHandler, 2);
+
+        dataReaderApi.Subscribe(
+            subscriptionKeyLinearInterpolation,
+            subscribedParameters,
+            2,
+            linearInterpolationHandler,
+            2,
+            linearInterpolationProcessor);
+
+        logger.Info("Press enter to stop...");
         Console.ReadLine();
-        supportLibApi.BufferingUnsubscribe(subscribedParameters);
-        supportLibApi.InterpolationUnsubscribe(subscriptionKey);
+        sampleReaderApi.RemoveHandler(sampleDataHandler);
+        sampleReaderApi.RemoveHandler(timestampDataHandler);
+        sampleReaderApi.Unsubscribe(subscribedParameters);
+
+        dataReaderApi.Unsubscribe(subscriptionKeyDefault);
+        dataReaderApi.Unsubscribe(subscriptionKeyLinearInterpolation);
+        dataReaderApi.Stop();
+
+        sampleReaderApi.Stop();
         supportLibApi.Stop();
         sqlSessionManager.Stop();
+        Console.ReadLine();
     }
 }

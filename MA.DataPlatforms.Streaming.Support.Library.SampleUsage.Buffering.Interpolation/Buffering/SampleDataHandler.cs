@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.BufferingModule;
+using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.BufferingModule.Abstractions;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Shared.Abstractions;
 using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;
 
@@ -13,7 +14,7 @@ using MESL.SqlRace.Domain;
 
 namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Buffering;
 
-internal class SampleDataHandler : IHandler<SampleData>
+internal class SampleDataHandler : IHandler<ISampleData>
 {
     private readonly ILogger logger;
     private readonly ISqlSessionManager sqlSessionManager;
@@ -31,7 +32,7 @@ internal class SampleDataHandler : IHandler<SampleData>
     ///     timestamps.
     /// </summary>
     /// <param name="obj">Sample Data from the support library.</param>
-    public void Handle(SampleData obj)
+    public void Handle(ISampleData obj)
     {
         SqlRaceSession session;
         switch (obj)
@@ -68,7 +69,14 @@ internal class SampleDataHandler : IHandler<SampleData>
 
         foreach (var marker in markers.OfType<MarkerData>())
         {
-            session.ClientSession.Session.LapCollection.Add(new Lap(marker.TimeStamp.ConvertTimestamp(), (short)marker.Value, 0, marker.Label, false));
+            try
+            {
+                session.ClientSession.Session.LapCollection.Add(new Lap(marker.Timestamp.ConvertTimestamp(), (short)marker.Value, 0, marker.Label, false));
+            }
+            catch (InvalidOperationException ex)
+            {
+                this.logger.Warning($"Unable to add laps to the session due to {ex}.");
+            }
         }
 
         if (!this.subscribedParameters.Contains(obj.Identifier))
@@ -82,7 +90,7 @@ internal class SampleDataHandler : IHandler<SampleData>
         var values = obj.Values
             .Where(x => x.Value.ValueType != typeof(MarkerData)).ToList();
 
-        var timestamps = values.Select(x => x.TimeStamp.ConvertTimestamp()).ToArray();
+        var timestamps = values.Select(x => x.Timestamp.ConvertTimestamp()).ToArray();
         var samples = values.SelectMany(x => BitConverter.GetBytes(x.Value.Cast<double>())).ToArray();
 
         session.ClientSession.Session.AddRowData(channelId, timestamps, samples, sizeof(double), false);
