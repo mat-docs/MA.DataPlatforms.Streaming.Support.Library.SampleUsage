@@ -178,6 +178,11 @@ internal class SqlSessionManager : ISqlSessionManager
                 return;
             }
 
+            if (session.ClientSession.Session is null)
+            {
+                return;
+            }
+
             if (session.ClientSession.Session.State == SessionState.Historical)
             {
                 return;
@@ -191,5 +196,6 @@ internal class SqlSessionManager : ISqlSessionManager
     {
         session.ClientSession.Session.EndData();
         session.ClientSession.Session.Flush();
+        session.ClientSession.Dispose();
     }
 }

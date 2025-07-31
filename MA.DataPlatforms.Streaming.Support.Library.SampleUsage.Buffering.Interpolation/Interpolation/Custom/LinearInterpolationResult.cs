@@ -3,12 +3,12 @@
 
 using System.Collections.Generic;
 
-using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.InterpolationModule;
+using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.InterpolationModule.Abstractions;
 
 namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Interpolation.Custom;
 
 /// <summary>
-/// Custom DTO that implements the IProcessResult interface which allows it to be used by the Support Library.
+///     Custom DTO that implements the IProcessResult interface which allows it to be used by the Support Library.
 /// </summary>
 internal sealed class LinearInterpolationResult : IProcessResult
 {

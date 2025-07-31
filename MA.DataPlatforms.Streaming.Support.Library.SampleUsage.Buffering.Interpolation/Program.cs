@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Threading.Tasks;
 
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Abstractions;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.BufferingModule;
@@ -46,13 +45,13 @@ internal static class Program
         // Configure Support Library
         var streamApiConfig = new StreamingApiConfiguration(StreamCreationStrategy.TopicBased, "localhost:9094", []);
         var packetReadingConfig = new PacketReadingConfiguration(
-            sessionIdentifierPattern: "Test Quali Session 250506093638",
-            readingType: ReadingType.Historic,
+            sessionIdentifierPattern: "*",
+            readingType: ReadingType.Live,
             streams: new List<string>
             {
                 "Chassis"
             });
-        var bufferingConfig = new BufferingConfiguration(subscribedParameters, includeMarkerData: true, bufferingWindowLength: 60000);
+        var bufferingConfig = new BufferingConfiguration(subscribedParameters, includeMarkerData: true, bufferingWindowLength: 3000);
 
         // Create the handlers.
         var logger = new Logger(LoggingLevel.Info);
@@ -72,24 +71,59 @@ internal static class Program
 
         // Create the support library.
         var supportLibApi = new SupportLibApiFactory().Create(
-            streamApiConfig,
-            packetReadingConfig,
-            bufferingConfig,
             logger,
-            sampleDataHandler: sampleDataHandler,
-            timestampDataHandler: timestampDataHandler);
+            streamApiConfig);
 
         // Initialize and start support library
-        supportLibApi.Initiate();
-        Task.Run(() => supportLibApi.Start());
+        supportLibApi.Initialise();
+        supportLibApi.Start();
+        var sampleReaderModule = supportLibApi.GetSampleReaderApi();
+        if (sampleReaderModule is null)
+        {
+            logger.Error("Failed to create sample reader module.");
+            return;
+        }
+
+        var sampleReaderApiResponse = sampleReaderModule.CreateService(bufferingConfig);
+        if (!sampleReaderApiResponse.Success ||
+            sampleReaderApiResponse.Data is null)
+        {
+            logger.Error("Failed to create sample reader api.");
+            return;
+        }
+
+        var sampleReaderApi = sampleReaderApiResponse.Data;
+        sampleReaderApi.Initialise();
+        sampleReaderApi.Start();
 
         // Subscribe to buffering (merging)
-        supportLibApi.BufferingSubscribe(subscribedParameters);
+        sampleReaderApi.Subscribe(subscribedParameters);
+        sampleReaderApi.AddHandler(sampleDataHandler);
+        sampleReaderApi.AddHandler(timestampDataHandler);
 
         // Subscribe to interpolation. This is also where we can inject your handler and processor for that interpolation.
-        supportLibApi.InterpolationSubscribe(subscriptionKeyDefault, subscribedParameters, 2, interpolationResultHandler, 2);
+        var dataReaderModule = supportLibApi.GetDataReaderApi();
+        if (dataReaderModule is null)
+        {
+            logger.Error("Failed to create data reader module.");
+            return;
+        }
 
-        supportLibApi.InterpolationSubscribe(
+        var dataReaderApiResponse = dataReaderModule.CreateService();
+        if (!dataReaderApiResponse.Success ||
+            dataReaderApiResponse.Data is null)
+        {
+            logger.Error("Failed to create data reader api.");
+            return;
+        }
+
+        var dataReaderApi = dataReaderApiResponse.Data;
+        dataReaderApi.Initialise();
+        dataReaderApi.Start();
+        dataReaderApi.SetSampleReaderService(sampleReaderApi);
+        dataReaderApi.Subscribe(subscriptionKeyDefault, subscribedParameters, 2, interpolationResultHandler, 2);
+
+        dataReaderApi.Subscribe(
             subscriptionKeyLinearInterpolation,
             subscribedParameters,
             2,
@@ -97,11 +131,19 @@ internal static class Program
             2,
             linearInterpolationProcessor);
 
+        logger.Info("Press enter to stop...");
         Console.ReadLine();
-        supportLibApi.BufferingUnsubscribe(subscribedParameters);
-        supportLibApi.InterpolationUnsubscribe(subscriptionKeyDefault);
-        supportLibApi.InterpolationUnsubscribe(subscriptionKeyLinearInterpolation);
+        sampleReaderApi.RemoveHandler(sampleDataHandler);
+        sampleReaderApi.RemoveHandler(timestampDataHandler);
+        sampleReaderApi.Unsubscribe(subscribedParameters);
+
+        dataReaderApi.Unsubscribe(subscriptionKeyDefault);
+        dataReaderApi.Unsubscribe(subscriptionKeyLinearInterpolation);
+        dataReaderApi.Stop();
+
+        sampleReaderApi.Stop();
         supportLibApi.Stop();
         sqlSessionManager.Stop();
+        Console.ReadLine();
     }
 }

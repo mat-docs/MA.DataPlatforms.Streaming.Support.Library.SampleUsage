@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.InterpolationModule;
+using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.InterpolationModule.Abstractions;
 
 namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Interpolation.Custom;
 

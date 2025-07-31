@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.BufferingModule;
+using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.BufferingModule.Abstractions;
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Shared.Abstractions;
 using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;
 
@@ -13,7 +14,7 @@ using MESL.SqlRace.Domain;
 
 namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Buffering;
 
-internal class TimestampDataHandler : IHandler<TimestampData>
+internal class TimestampDataHandler : IHandler<ITimestampData>
 {
     private readonly ILogger logger;
     private readonly ISqlSessionManager sessionManager;
@@ -30,17 +31,17 @@ internal class TimestampDataHandler : IHandler<TimestampData>
     ///     Here data is split per "Timestamp". Each timestamp contains samples for multiple parameters.
     /// </summary>
     /// <param name="obj">TimestampData from support library.</param>
-    public void Handle(TimestampData obj)
+    public void Handle(ITimestampData obj)
     {
         SqlRaceSession session;
         switch (obj)
         {
-            case StartTimeStampData startTimeStampData:
+            case StartTimestampData startTimeStampData:
             {
                 session = this.sessionManager.CreateSession(startTimeStampData.SessionKey);
                 break;
             }
-            case EndTimeStampData endTimeStampData:
+            case EndTimestampData endTimeStampData:
             {
                 this.sessionManager.StopSession(endTimeStampData.SessionKey);
                 return;
@@ -70,7 +71,7 @@ internal class TimestampDataHandler : IHandler<TimestampData>
         {
             try
             {
-                session.ClientSession.Session.LapCollection.Add(new Lap(marker.TimeStamp.ConvertTimestamp(), (short)marker.Value, 0, marker.Label, false));
+                session.ClientSession.Session.LapCollection.Add(new Lap(marker.Timestamp.ConvertTimestamp(), (short)marker.Value, 0, marker.Label, false));
             }
             catch (InvalidOperationException ex)
             {
@@ -99,7 +100,7 @@ internal class TimestampDataHandler : IHandler<TimestampData>
                 continue;
             }
 
-            session.ClientSession.Session.AddRowData(timeColumn.TimeStamp.ConvertTimestamp(), channelIds, data.ToArray());
+            session.ClientSession.Session.AddRowData(timeColumn.Timestamp.ConvertTimestamp(), channelIds, data.ToArray());
         }
     }
 }

@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 
 using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.InterpolationModule;
+using MA.DataPlatforms.Streaming.Support.Lib.Core.Contracts.InterpolationModule.Abstractions;
 using MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.SqlRace;
 
 namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation.Interpolation.Custom;
