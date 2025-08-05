@@ -77,6 +77,26 @@ internal static class Program
         // Initialize and start support library
         supportLibApi.Initialise();
         supportLibApi.Start();
+
+        var packetReaderModuleApi = supportLibApi.GetReadingPacketApi();
+        if (packetReaderModuleApi is null)
+        {
+            logger.Error("Failed to create packet reader module.");
+            return;
+        }
+
+        var packetReaderApiResponse = packetReaderModuleApi.CreateService(packetReadingConfig);
+        if (!packetReaderApiResponse.Success ||
+            packetReaderApiResponse.Data is null)
+        {
+            logger.Error("Failed to create packet reader api.");
+            return;
+        }
+
+        var packetReaderService = packetReaderApiResponse.Data;
+        packetReaderService.Initialise();
+        packetReaderService.Start();
+
         var sampleReaderModule = supportLibApi.GetSampleReaderApi();
         if (sampleReaderModule is null)
         {
@@ -93,13 +113,16 @@ internal static class Program
         }
 
         var sampleReaderApi = sampleReaderApiResponse.Data;
+
+        // Subscribe to buffering (merging)
+        sampleReaderApi.SetReaderService(packetReaderService);
+        sampleReaderApi.AddHandler(sampleDataHandler);
+        sampleReaderApi.AddHandler(timestampDataHandler);
+
         sampleReaderApi.Initialise();
         sampleReaderApi.Start();
 
-        // Subscribe to buffering (merging)
         sampleReaderApi.Subscribe(subscribedParameters);
-        sampleReaderApi.AddHandler(sampleDataHandler);
-        sampleReaderApi.AddHandler(timestampDataHandler);
 
         // Subscribe to interpolation. This is also where we can inject your handler and processor for that interpolation.
         var dataReaderModule = supportLibApi.GetDataReaderApi();
@@ -118,9 +141,9 @@ internal static class Program
         }
 
         var dataReaderApi = dataReaderApiResponse.Data;
+        dataReaderApi.SetSampleReaderService(sampleReaderApi);
         dataReaderApi.Initialise();
         dataReaderApi.Start();
-        dataReaderApi.SetSampleReaderService(sampleReaderApi);
         dataReaderApi.Subscribe(subscriptionKeyDefault, subscribedParameters, 2, interpolationResultHandler, 2);
 
         dataReaderApi.Subscribe(
@@ -143,6 +166,7 @@ internal static class Program
 
         sampleReaderApi.Stop();
         supportLibApi.Stop();
+        packetReaderService.Stop();
         sqlSessionManager.Stop();
         Console.ReadLine();
     }
