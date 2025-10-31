@@ -21,7 +21,8 @@ from ma_dataplatforms_streaming_support_library.protos.open_data_pb2 import Pack
 from sample_code.sample_writer.packet_id_generator import PacketIdGenerator
 from sample_code.sample_writer.periodic_packet_generator import PeriodicPacketGenerator
 
-
+# This class is a sample on how to write data into the stream. It uses the packet writer service, session management,
+# and data format management to create a session with a sine wave parameter.
 class MockDataWriter:
     def __init__(self, packet_writer_service: IPacketWriterService,
                  data_format_management_service: IDataFormatManagementService,

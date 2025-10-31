@@ -7,7 +7,7 @@ from ma_dataplatforms_streaming_support_library.contracts.session_management.ses
 from ma_dataplatforms_streaming_support_library.contracts.session_management.session_info import SessionInfo
 from ma_dataplatforms_streaming_support_library.core.base.logger import ILogger
 
-
+# This class just shows how to subscribe and unsubscribe from events from the packet reader.
 class SessionNotifier:
     def __init__(self, packet_reader_service: IPacketReaderService, logger: ILogger):
         self.__packet_reader_service = packet_reader_service
@@ -31,6 +31,7 @@ class SessionNotifier:
         self.__packet_reader_service.coverage_cursor_received.unsubscribe(self.__on_coverage_cursor_received)
         self.__packet_reader_service.session_association_info_updated.unsubscribe(self.__on_session_association_updated)
 
+    # All calling methods much conform to the C# style event handlers.
     def __on_session_reading_started(self, sender: object, session_info: SessionInfo):
         self.__logger.info(
             f"Session reading started for session {session_info.identifier} with session key {session_info.session_key}")
