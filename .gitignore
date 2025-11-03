@@ -369,3 +369,12 @@ Python/ma
 /Python/proto
 /Python/streaming
 /Python/venv
+
+# MkDocs
+site/
+.cache/
+
+# Core library docs (synced from external repo)
+# Comment out the line below if you want to commit synced docs
+# docs/core-library/*
+# !docs/core-library/README.md

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <!-- Application Layer -->
+  <rect x="50" y="30" width="500" height="80" fill="#e1f5ff" stroke="#0277bd" stroke-width="2" rx="5"/>
+  <text x="300" y="65" text-anchor="middle" font-size="16" font-weight="bold">Application Layer</text>
+  <text x="300" y="90" text-anchor="middle" font-size="14">(C# or Python)</text>
+  
+  <!-- Arrow -->
+  <path d="M 300 110 L 300 140" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="320" y="130" font-size="12" fill="#666">API / FFI</text>
+  
+  <!-- Support Library -->
+  <rect x="50" y="150" width="500" height="100" fill="#fff3e0" stroke="#f57c00" stroke-width="2" rx="5"/>
+  <text x="300" y="180" text-anchor="middle" font-size="16" font-weight="bold">MA Streaming Support Library</text>
+  <text x="300" y="205" text-anchor="middle" font-size="14">(C# .NET Library - Cross-platform)</text>
+  <text x="300" y="230" text-anchor="middle" font-size="12" fill="#666">Session • Data Format • Reader • Writer • Buffering • Interpolation</text>
+  
+  <!-- Arrow -->
+  <path d="M 300 250 L 300 280" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="320" y="270" font-size="12" fill="#666">Stream API</text>
+  
+  <!-- Stream Broker -->
+  <rect x="50" y="290" width="500" height="80" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="5"/>
+  <text x="300" y="325" text-anchor="middle" font-size="16" font-weight="bold">Stream Broker</text>
+  <text x="300" y="350" text-anchor="middle" font-size="14">(Kafka)</text>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666"/>
+    </marker>
+  </defs>
+</svg>
