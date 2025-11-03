@@ -128,7 +128,7 @@ var bufferingConfig = new BufferingConfiguration(
 | `SubscribedParameters` | `List<string>` | `null` | List of parameters to subscribe to. `null` = all parameters |
 | `BufferingWindowLength` | `int` | `3000` | Window length in milliseconds |
 | `SlidingWindowPercentage` | `double` | `5%` | Percentage of window length for sliding interval |
-| `MergeStrategy` | `IMergeStrategy` | `null` | Custom merge strategy. `null` = use built-in strategy |
+| `MergeStrategy` | `MergeStrategy?` | `null` | Merge strategy: `ReadingMerge` (recommended) or `WritingMerge` |
 | `IncludeMarkerData` | `bool` | `false` | Include marker data in buffered stream |
 | `IncludeEventData` | `bool` | `false` | Include event data in buffered stream |
 | `IncludeErrorData` | `bool` | `false` | Include error data in buffered stream |
@@ -516,24 +516,27 @@ sqlSessionManager.Stop();
 
 ## Extending the Sample
 
-### Add Custom Buffering Logic
+### Using Different Merge Strategies
 
-Implement `IMergeStrategy` to control how buffered data is merged:
+Choose between two merge strategies for buffering:
 
 ```csharp
-public class CustomMergeStrategy : IMergeStrategy
-{
-    public MergedData Merge(IReadOnlyList<RawData> data)
-    {
-        // Custom merging logic
-    }
-}
-
+// ReadingMerge (recommended for better performance)
 var bufferingConfig = new BufferingConfiguration(
     subscribedParameters,
-    mergeStrategy: new CustomMergeStrategy()
+    mergeStrategy: MergeStrategy.ReadingMerge
+);
+
+// WritingMerge
+var bufferingConfig = new BufferingConfiguration(
+    subscribedParameters,
+    mergeStrategy: MergeStrategy.WritingMerge
 );
 ```
+
+**Merge Strategy Options:**
+- `MergeStrategy.ReadingMerge`: Default strategy, optimized for reading performance (recommended)
+- `MergeStrategy.WritingMerge`: Attempts merge at buffer write time (not recommended)
 
 ### Add More Interpolation Subscriptions
 
