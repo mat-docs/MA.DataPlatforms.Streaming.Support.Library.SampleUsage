@@ -1,83 +1,97 @@
-# Streaming Data Buffering and Interpolation Sample
+# MA DataPlatforms Streaming Support Library - Sample Usage
 
-This sample application demonstrates how to use the `MA.DataPlatforms.Streaming.Support.Library` for buffering and interpolating streaming data. It processes real-time data from a Stream API, performs buffering and interpolation, and stores the results in a SQL Race session for visualization and analysis.
+This repository contains sample code and documentation for using the **MA DataPlatforms Streaming Support Library**, available in both **C#** and **Python**. The library enables applications to interact with Motion Applied's streaming telemetry data platform for reading, writing, and processing real-time motorsport data.
 
-## Features
+## 📚 Documentation
 
-- **Stream API Integration**: Listens to a Stream API (e.g., Kafka) for real-time data.
-- **Data Buffering**: Efficiently buffers incoming data with configurable window settings.
-- **Interpolation**: Provides first, last, mean, min, and max values of samples, with support for custom processors.
-- **SQL Race Integration**: Stores processed data in a SQLite database for visualization and analysis.
+Complete documentation is available in **MkDocs format**.
 
-## Main Components
+### View Documentation
 
-### Buffering Module
-Handles two types of data:
-- **Sample Data**: Each `SampleData` object contains one parameter with multiple samples and timestamps.
-- **Timestamp Data**: Each `TimestampData` object contains multiple parameters per timestamp.
+```powershell
+# Install dependencies
+pip install -r docs-requirements.txt
 
-### Interpolation Module
-Processes the data to provide:
-- First, Last, Mean, Min, and Max values of samples.
-- Support for custom processors to extend interpolation logic.
+# Serve documentation locally
+mkdocs serve
+```
 
-## Configuration
+Open your browser to: **http://127.0.0.1:8000**
 
-The application includes several configurable components:
+For more details, see [MKDOCS_SETUP.md](MKDOCS_SETUP.md).
 
-### `StreamingApiConfiguration`
-Sets up the connection to the Stream API (e.g., Kafka broker).
+## Quick Start
 
-### `PacketReadingConfig`
-Configures how sessions are read from the broker.
+Choose your implementation and follow the quick start guide:
 
-### `BufferingConfiguration`
-Controls buffering behavior with options like:
-- Window length
-- Sliding window percentage
-- Data types to include (markers, events, errors, CAN data)
+### C# Implementation
+**Location**: `MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation/`  
+**Features**: Full feature set including buffering, interpolation, and SQL Race integration
 
-### `InterpolationConfiguration`
-Controls interpolation behavior with:
-- Subscription frequency
-- Delivery frequency
-- Custom processors
+See [C# Sample Guide](MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation/README.md) for detailed instructions.
 
-## Example Usage
+### Python Implementation
+**Location**: `Python/`  
+**Features**: Core features (session management, packet reading/writing)
 
-The sample application:
-1. Subscribes to specific parameters (e.g., `"vCar:Chassis"`, `"sLap:Chassis"`).
-2. Sets up buffering with a 3000ms window.
-3. Configures interpolation at 2Hz.
-4. Stores results in a SQLite database.
+See [Python Sample Guide](Python/README.md) for detailed instructions.
 
-## Data Flow
+## Repository Structure
 
-1. Data is ingested from the Stream API.
-2. It is buffered according to the configured settings.
-3. The buffered data is processed by the interpolation module.
-4. Results are stored in SQL Race for visualization.
+```
+MA.DataPlatforms.Streaming.Support.Library.SampleUsage/
+│
+├── docs/                               # MkDocs documentation
+├── MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation/
+│   ├── Program.cs                      # C# sample application
+│   ├── README.md                       # C# documentation
+│   ├── Buffering/                      # Buffering examples
+│   ├── Interpolation/                  # Interpolation examples
+│   └── SqlRace/                        # SQL Race integration
+│
+└── Python/
+    ├── README.md                       # Python documentation
+    ├── sample_code/
+        ├── sample_reader/              # Reader example
+        └── sample_writer/              # Writer example
+```
 
-## Getting Started
+## Feature Comparison
 
-### Prerequisites
-- .NET runtime (version specified in the project)
-- Access to a Stream API (e.g., Kafka broker)
-- SQL Race for visualization (optional)
+| Feature | C# | Python |
+|---------|:--:|:------:|
+| Session Management | ✅ | ✅ |
+| Data Format Management | ✅ | ✅ |
+| Packet Reading | ✅ | ✅ |
+| Packet Writing | ✅ | ✅ |
+| Buffering | ✅ | ❌ |
+| Interpolation | ✅ | ❌ |
+| SQL Race Integration | ✅ | ❌ |
 
-### Setup
-1. Clone this repository.
-2. Update the `StreamingApiConfiguration` to match your Stream API setup.
-3. Modify the `PacketReadingConfig` to suit your needs.
-4. Update the `subscribedParameters` list with the parameters you want to monitor.
-5. Configure the buffering and interpolation settings in `BufferingConfiguration` and `InterpolationConfiguration`.
+## Platform Requirements
 
-### Running the Application
-1. Build the solution.
-2. Run the application executable.
+### C# Application
+- **.NET**: 8.0 or later
+- **Platform**: Cross-platform (Windows, Linux, macOS)
+- **SQL Race**: Required for interpolation samples
 
-## Customization
-You can extend the functionality by:
-- Implementing custom interpolation processors.
-- Adjusting buffering and interpolation settings in the configuration files.
-- Adding new parameter subscriptions.
+### Python Application
+- **Python**: 3.8 or later
+- **Platform**: Windows x64 only (native DLL dependency)
+
+## Additional Resources
+
+- **Full Documentation**: Run `mkdocs serve` to view complete documentation
+- **C# Samples**: [Detailed C# Guide](MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Interpolation/README.md)
+- **Python Samples**: [Detailed Python Guide](Python/README.md)
+- **Setup Instructions**: [MKDOCS_SETUP.md](MKDOCS_SETUP.md)
+
+## License & Support
+
+This sample code is provided by **Motion Applied Ltd.** for demonstration purposes.
+
+For support or questions, please contact Motion Applied support.
+
+---
+
+**Version**: 2025 R03 Release

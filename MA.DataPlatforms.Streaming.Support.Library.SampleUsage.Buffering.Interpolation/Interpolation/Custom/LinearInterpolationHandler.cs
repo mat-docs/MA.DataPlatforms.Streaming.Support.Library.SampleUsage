@@ -1,5 +1,5 @@
-﻿// <copyright file="LinearInterpolationHandler.cs" company="McLaren Applied Ltd.">
-// Copyright (c) McLaren Applied Ltd.</copyright>
+﻿// <copyright file="LinearInterpolationHandler.cs" company="Motion Applied Ltd.">
+// Copyright (c) Motion Applied Ltd.</copyright>
 
 using System;
 using System.Linq;

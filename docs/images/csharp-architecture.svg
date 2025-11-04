@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 550">
+  <!-- Title -->
+  <text x="325" y="25" text-anchor="middle" font-size="18" font-weight="bold">C# Architecture</text>
+  
+  <!-- C# Application -->
+  <rect x="50" y="50" width="550" height="60" fill="#e3f2fd" stroke="#0277bd" stroke-width="2" rx="5"/>
+  <text x="325" y="85" text-anchor="middle" font-size="16" font-weight="bold">C# Application</text>
+  
+  <!-- Arrow -->
+  <path d="M 325 110 L 325 140" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Support Library -->
+  <rect x="50" y="150" width="550" height="70" fill="#fff3e0" stroke="#f57c00" stroke-width="2" rx="5"/>
+  <text x="325" y="180" text-anchor="middle" font-size="16" font-weight="bold">Support Library</text>
+  <text x="325" y="205" text-anchor="middle" font-size="12">(C# .NET Library - Cross-platform)</text>
+  
+  <!-- Modules -->
+  <g>
+    <!-- Session Management -->
+    <rect x="70" y="260" width="100" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5" rx="4"/>
+    <text x="120" y="285" text-anchor="middle" font-size="11" font-weight="bold">Session</text>
+    <text x="120" y="302" text-anchor="middle" font-size="10">Management</text>
+    
+    <!-- Data Format -->
+    <rect x="185" y="260" width="100" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5" rx="4"/>
+    <text x="235" y="285" text-anchor="middle" font-size="11" font-weight="bold">Data Format</text>
+    <text x="235" y="302" text-anchor="middle" font-size="10">Management</text>
+    
+    <!-- Packet Reader/Writer -->
+    <rect x="300" y="260" width="100" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5" rx="4"/>
+    <text x="350" y="285" text-anchor="middle" font-size="11" font-weight="bold">Packet</text>
+    <text x="350" y="302" text-anchor="middle" font-size="10">Reader/Writer</text>
+    
+    <!-- Sample Reader -->
+    <rect x="415" y="260" width="100" height="60" fill="#e1f5ff" stroke="#0277bd" stroke-width="1.5" rx="4"/>
+    <text x="465" y="280" text-anchor="middle" font-size="11" font-weight="bold">Sample Reader</text>
+    <text x="465" y="297" text-anchor="middle" font-size="10">(Buffering)</text>
+    
+    <!-- Data Reader -->
+    <rect x="530" y="260" width="100" height="60" fill="#e8eaf6" stroke="#3949ab" stroke-width="1.5" rx="4"/>
+    <text x="580" y="280" text-anchor="middle" font-size="11" font-weight="bold">Data Reader</text>
+    <text x="580" y="297" text-anchor="middle" font-size="10">(Interpolation)</text>
+  </g>
+  
+  <!-- Arrows from Support Library to modules -->
+  <path d="M 120 220 L 120 260" stroke="#666" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 235 220 L 235 260" stroke="#666" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 350 220 L 350 260" stroke="#666" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 465 220 L 465 260" stroke="#666" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 580 220 L 580 260" stroke="#666" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- SQL Race -->
+  <rect x="415" y="360" width="215" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="5"/>
+  <text x="522" y="390" text-anchor="middle" font-size="14" font-weight="bold">SQL Race Database</text>
+  
+  <!-- Arrows to SQL Race -->
+  <path d="M 465 320 L 480 360" stroke="#666" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 580 320 L 565 360" stroke="#666" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Kafka Broker -->
+  <rect x="70" y="360" width="315" height="60" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="5"/>
+  <text x="227" y="395" text-anchor="middle" font-size="14" font-weight="bold">Kafka Broker</text>
+  
+  <!-- Arrow to Kafka -->
+  <path d="M 350 320 L 270 360" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- ATLAS -->
+  <rect x="415" y="460" width="215" height="60" fill="#fff9c4" stroke="#f9a825" stroke-width="2" rx="5"/>
+  <text x="522" y="495" text-anchor="middle" font-size="14" font-weight="bold">ATLAS Visualization</text>
+  
+  <!-- Arrow to ATLAS -->
+  <path d="M 522 420 L 522 460" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666"/>
+    </marker>
+  </defs>
+</svg>

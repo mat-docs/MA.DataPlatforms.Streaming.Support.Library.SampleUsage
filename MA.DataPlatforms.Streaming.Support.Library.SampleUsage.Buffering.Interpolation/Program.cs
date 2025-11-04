@@ -1,5 +1,5 @@
-﻿// <copyright file="Program.cs" company="McLaren Applied Ltd.">
-// Copyright (c) McLaren Applied Ltd.</copyright>
+﻿// <copyright file="Program.cs" company="Motion Applied Ltd.">
+// Copyright (c) Motion Applied Ltd.</copyright>
 
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace MA.DataPlatforms.Streaming.Support.Library.SampleUsage.Buffering.Inter
 
 internal static class Program
 {
-    private const string ConnectionString = @"DbEngine=SQLite;Data Source=C:\McLaren Applied\SupportFilesDemo\SupportFilesDemo.ssndb;PRAGMA journal_mode=WAL;";
+    private const string ConnectionString = @"DbEngine=SQLite;Data Source=C:\Motion Applied\SupportFilesDemo\SupportFilesDemo.ssndb;PRAGMA journal_mode=WAL;";
 
     private static void Main()
     {

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 300">
+  <!-- Title -->
+  <text x="350" y="25" text-anchor="middle" font-size="16" font-weight="bold">Reading Data Flow</text>
+  
+  <!-- Application -->
+  <rect x="20" y="60" width="120" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="5"/>
+  <text x="80" y="95" text-anchor="middle" font-size="14" font-weight="bold">Application</text>
+  
+  <!-- Packet Reader -->
+  <rect x="190" y="60" width="140" height="60" fill="#fff3e0" stroke="#f57c00" stroke-width="2" rx="5"/>
+  <text x="260" y="85" text-anchor="middle" font-size="14" font-weight="bold">Packet Reader</text>
+  <text x="260" y="105" text-anchor="middle" font-size="12">Service</text>
+  
+  <!-- Kafka Broker -->
+  <rect x="380" y="60" width="140" height="60" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="5"/>
+  <text x="450" y="85" text-anchor="middle" font-size="14" font-weight="bold">Kafka Broker</text>
+  <text x="450" y="105" text-anchor="middle" font-size="12">Stream</text>
+  
+  <!-- Data Handler -->
+  <rect x="560" y="60" width="120" height="60" fill="#e1f5ff" stroke="#0277bd" stroke-width="2" rx="5"/>
+  <text x="620" y="85" text-anchor="middle" font-size="14" font-weight="bold">Data Handler</text>
+  <text x="620" y="105" text-anchor="middle" font-size="12">Process</text>
+  
+  <!-- Flow labels -->
+  <text x="80" y="160" font-size="11" fill="#666">1. Initialize &amp; Start</text>
+  <text x="260" y="160" font-size="11" fill="#666">2. Set Handler</text>
+  <text x="450" y="160" font-size="11" fill="#666">3. Subscribe</text>
+  <text x="450" y="200" font-size="11" fill="#666">4. Stream Packets</text>
+  <text x="620" y="200" font-size="11" fill="#666">5. Process Packet</text>
+  <text x="620" y="240" font-size="11" fill="#666">6. Extract Data</text>
+  
+  <!-- Arrows -->
+  <path d="M 140 90 L 190 90" stroke="#2196f3" stroke-width="2" fill="none" marker-end="url(#arrowblue)"/>
+  <path d="M 330 90 L 380 90" stroke="#2196f3" stroke-width="2" fill="none" marker-end="url(#arrowblue)"/>
+  <path d="M 450 120 L 450 180 L 620 180" stroke="#4caf50" stroke-width="2" fill="none" marker-end="url(#arrowgreen)"/>
+  <path d="M 520 90 L 560 90" stroke="#4caf50" stroke-width="2" fill="none" marker-end="url(#arrowgreen)"/>
+  <path d="M 620 120 L 620 220 L 140 220 L 140 120" stroke="#ff9800" stroke-width="2" fill="none" marker-end="url(#arroworange)" stroke-dasharray="5,5"/>
+  
+  <!-- Arrow marker definitions -->
+  <defs>
+    <marker id="arrowblue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#2196f3"/>
+    </marker>
+    <marker id="arrowgreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#4caf50"/>
+    </marker>
+    <marker id="arroworange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#ff9800"/>
+    </marker>
+  </defs>
+</svg>
