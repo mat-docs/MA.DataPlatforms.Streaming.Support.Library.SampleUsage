@@ -1,0 +1,10 @@
+# Installation Requirements
+
+This file contains the Python packages required to build and serve the MkDocs documentation.
+
+## Core MkDocs
+mkdocs>=1.5.0
+mkdocs-material>=9.4.0
+
+## Extensions
+pymdown-extensions>=10.3

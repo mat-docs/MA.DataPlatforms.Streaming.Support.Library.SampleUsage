@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 450">
+  <!-- Title -->
+  <text x="250" y="25" text-anchor="middle" font-size="16" font-weight="bold">Python Architecture</text>
+  
+  <!-- Python Application -->
+  <rect x="100" y="50" width="300" height="70" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="5"/>
+  <text x="250" y="85" text-anchor="middle" font-size="16" font-weight="bold">Python Application</text>
+  
+  <!-- Arrow and FFI label -->
+  <path d="M 250 120 L 250 160" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="270" y="145" font-size="12" fill="#666">Python FFI</text>
+  
+  <!-- C# DLL -->
+  <rect x="100" y="170" width="300" height="70" fill="#fff3e0" stroke="#f57c00" stroke-width="2" rx="5"/>
+  <text x="250" y="200" text-anchor="middle" font-size="16" font-weight="bold">C# Support Library DLL</text>
+  <text x="250" y="220" text-anchor="middle" font-size="12">(FFI Wrapper - Windows x64)</text>
+  
+  <!-- Arrow and Stream API label -->
+  <path d="M 250 240 L 250 280" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="270" y="265" font-size="12" fill="#666">Stream API</text>
+  
+  <!-- Kafka Broker -->
+  <rect x="100" y="290" width="300" height="70" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="5"/>
+  <text x="250" y="325" text-anchor="middle" font-size="16" font-weight="bold">Kafka Broker</text>
+  
+  <!-- Note -->
+  <rect x="50" y="380" width="400" height="50" fill="#fff9c4" stroke="#f9a825" stroke-width="1" rx="3"/>
+  <text x="250" y="400" text-anchor="middle" font-size="12">⚠ Windows x64 Required</text>
+  <text x="250" y="418" text-anchor="middle" font-size="11">Native DLL dependency</text>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666"/>
+    </marker>
+  </defs>
+</svg>

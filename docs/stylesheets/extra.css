@@ -1,0 +1,77 @@
+/* Custom styles for MkDocs Material theme */
+
+/* Custom primary color - Motion Applied Orange (RGB: 244, 97, 23) */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: rgb(244, 97, 23);
+  --md-primary-fg-color--light: rgb(246, 127, 65);
+  --md-primary-fg-color--dark: rgb(220, 87, 21);
+  --md-primary-bg-color: hsla(0, 0%, 100%, 1);
+  --md-primary-bg-color--light: hsla(0, 0%, 100%, 0.7);
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: rgb(244, 97, 23);
+  --md-primary-fg-color--light: rgb(246, 127, 65);
+  --md-primary-fg-color--dark: rgb(220, 87, 21);
+}
+
+/* Improve code block appearance */
+.highlight {
+    border-radius: 0.3em;
+}
+
+/* Add some spacing for cards */
+.md-typeset .grid.cards > * {
+    margin-bottom: 1em;
+}
+
+/* Improve admonition spacing */
+.md-typeset .admonition {
+    margin: 1.5em 0;
+}
+
+/* Better table styling */
+.md-typeset table:not([class]) {
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: 0.3em;
+}
+
+/* Improve inline code appearance */
+.md-typeset code {
+    padding: 0.1em 0.4em;
+    border-radius: 0.2em;
+}
+
+/* Add subtle shadow to content tabs */
+.md-typeset .tabbed-set {
+    box-shadow: 0 0.1em 0.3em rgba(0, 0, 0, 0.05);
+    border-radius: 0.3em;
+}
+
+/* Improve heading spacing */
+.md-typeset h2 {
+    margin-top: 2em;
+}
+
+.md-typeset h3 {
+    margin-top: 1.5em;
+}
+
+/* Add icon styling */
+.md-typeset .lg {
+    font-size: 2em;
+}
+
+.md-typeset .middle {
+    vertical-align: middle;
+}
+
+/* Improve navigation appearance */
+.md-nav__link--active {
+    font-weight: 600;
+}
+
+/* Better footer styling */
+.md-footer-meta {
+    background-color: var(--md-footer-bg-color--dark);
+}

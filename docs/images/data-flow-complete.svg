@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 450">
+  <!-- Title -->
+  <text x="350" y="25" text-anchor="middle" font-size="18" font-weight="bold">Complete Data Flow: Writing with Buffering & Interpolation</text>
+  
+  <!-- Application -->
+  <rect x="50" y="50" width="120" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="5"/>
+  <text x="110" y="85" text-anchor="middle" font-size="14" font-weight="bold">Application</text>
+  
+  <!-- Packet Writer -->
+  <rect x="220" y="50" width="140" height="60" fill="#fff3e0" stroke="#f57c00" stroke-width="2" rx="5"/>
+  <text x="290" y="75" text-anchor="middle" font-size="14" font-weight="bold">Packet Writer</text>
+  <text x="290" y="95" text-anchor="middle" font-size="12">Service</text>
+  
+  <!-- Kafka Broker -->
+  <rect x="410" y="50" width="120" height="60" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="5"/>
+  <text x="470" y="85" text-anchor="middle" font-size="14" font-weight="bold">Kafka Broker</text>
+  
+  <!-- Arrows from App to Broker -->
+  <path d="M 170 80 L 220 80" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 360 80 L 410 80" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Packet Reader -->
+  <rect x="410" y="150" width="120" height="60" fill="#fff3e0" stroke="#f57c00" stroke-width="2" rx="5"/>
+  <text x="470" y="175" text-anchor="middle" font-size="14" font-weight="bold">Packet Reader</text>
+  <text x="470" y="195" text-anchor="middle" font-size="12">Service</text>
+  
+  <!-- Arrow from Broker to Reader -->
+  <path d="M 470 110 L 470 150" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Sample Reader (Buffering) -->
+  <rect x="300" y="250" width="260" height="80" fill="#e1f5ff" stroke="#0277bd" stroke-width="2" rx="5"/>
+  <text x="430" y="275" text-anchor="middle" font-size="14" font-weight="bold">Sample Reader (Buffering)</text>
+  <text x="430" y="295" text-anchor="middle" font-size="12">3s time windows</text>
+  <text x="430" y="315" text-anchor="middle" font-size="12">Merge strategies</text>
+  
+  <!-- Arrow from Reader to Buffering -->
+  <path d="M 470 210 L 470 250" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- SampleData Handler -->
+  <rect x="80" y="370" width="140" height="50" fill="#ffebee" stroke="#c62828" stroke-width="2" rx="5"/>
+  <text x="150" y="390" text-anchor="middle" font-size="12" font-weight="bold">SampleData</text>
+  <text x="150" y="407" text-anchor="middle" font-size="11">Handler</text>
+  
+  <!-- TimestampData Handler -->
+  <rect x="240" y="370" width="140" height="50" fill="#ffebee" stroke="#c62828" stroke-width="2" rx="5"/>
+  <text x="310" y="390" text-anchor="middle" font-size="12" font-weight="bold">TimestampData</text>
+  <text x="310" y="407" text-anchor="middle" font-size="11">Handler</text>
+  
+  <!-- Arrows from Buffering to Handlers -->
+  <path d="M 350 330 L 150 370" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 400 330 L 310 370" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Data Reader (Interpolation) -->
+  <rect x="420" y="360" width="180" height="70" fill="#e8eaf6" stroke="#3949ab" stroke-width="2" rx="5"/>
+  <text x="510" y="385" text-anchor="middle" font-size="14" font-weight="bold">Data Reader</text>
+  <text x="510" y="402" text-anchor="middle" font-size="12">(Interpolation)</text>
+  <text x="510" y="419" text-anchor="middle" font-size="11">2 Hz frequency</text>
+  
+  <!-- Arrow from Buffering to Interpolation -->
+  <path d="M 480 330 L 510 360" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- SQL Race -->
+  <rect x="150" y="250" width="120" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="5"/>
+  <text x="210" y="275" text-anchor="middle" font-size="14" font-weight="bold">SQL Race</text>
+  <text x="210" y="295" text-anchor="middle" font-size="12">Session</text>
+  
+  <!-- Arrows to SQL Race -->
+  <path d="M 150 390 L 180 310" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 310 390 L 240 310" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 450 395 L 270 290" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- ATLAS -->
+  <rect x="20" y="250" width="100" height="60" fill="#fff9c4" stroke="#f9a825" stroke-width="2" rx="5"/>
+  <text x="70" y="275" text-anchor="middle" font-size="14" font-weight="bold">ATLAS</text>
+  <text x="70" y="295" text-anchor="middle" font-size="12">Visualization</text>
+  
+  <!-- Arrow from SQL Race to ATLAS -->
+  <path d="M 150 280 L 120 280" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666"/>
+    </marker>
+  </defs>
+</svg>
